@@ -1,5 +1,8 @@
 const express = require('express');
 const path = require('path');
+const db = require('./db/db.json')
+const fs = require("fs")
+const {v4 : uuid} = require("uuid")
 
 const PORT = 3001;
 
@@ -17,19 +20,26 @@ app.get('/', (req, res) =>
 app.get('/notes', (req, res)=>
     res.sendFile(path.join(__dirname, '/Develop/public/notes.html'))
 );
-app.post('/husaam',(req, res)=>{
-  console.log("Husaam is awesome")
-  res.json('yes he is!')
+app.post('/husaam/:job/:food',(req, res)=>{
+  console.log(req.params);
+  res.json('yes he is!');
 })
 app.get('/api/notes', (req, res)=>{
-  res.json('Testing GET notes')
+  res.json(db);
 }
 )
 app.post('/api/notes', (req, res)=>{
-  res.json('Testing POST notes')
+  const newNote = {
+    title: req.body.title,
+    text: req.body.text,
+    id: uuid()
+  }
+  db.push(newNote);
+  fs.writeFile("./db/db.json", JSON.stringify(db), err => console.log(err))
+  res.json(db);
 })
 app.delete('/api/notes/:id', (req, res)=>{
-  res.json('Testing DELETE notes')
+  res.json('Testing DELETE notes');
 })
 // WHEN I click on the link to the notes page
 // THEN I am presented with a page with existing notes listed in the left-hand column, plus empty fields to enter a new note title and the note’s text in the right-hand column
@@ -49,3 +59,5 @@ app.delete('/api/notes/:id', (req, res)=>{
 app.listen(PORT, () => 
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
+
+//db[db.length-1].id+1 || 0
