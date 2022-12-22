@@ -40,11 +40,17 @@ app.post('/api/notes', (req, res)=>{
   res.json(db);
 })
 
-fsDelete = (data) =>{
+fsDelete = (data, param) =>{
   console.log("hello from fsDelete!")
   const array = JSON.parse(data);
   for (let i=0; i<array.length; i++){
-  console.log(array[i].id)
+  //console.log(array[i].id)
+  if (array[i].id === param){
+    const newData = array.replace(array[i], '')
+    fs.writeFile("./db/db.json", newData, 'utf-8')
+  }else{
+    console.log("Cannot find ID")
+  }
   }
  // const detectId = array.id
   //console.log(detectId)
@@ -56,11 +62,10 @@ app.delete('/api/notes/:id', (req, res)=>{
   const param = req.param.id
   console.log(param)
   fs.readFile("./db/db.json", "utf8", (err, data) => {
-      console.log(data);
-      fsDelete(data)
+      console.log(data, param);
+      fsDelete(data, param)
  })
- //const newData = data.replace(detectId, '')
- //fs.writeFile("./db/db.json", newData, 'utf-8')
+
 })
 // WHEN I click on the link to the notes page
 // THEN I am presented with a page with existing notes listed in the left-hand column, plus empty fields to enter a new note title and the note’s text in the right-hand column
