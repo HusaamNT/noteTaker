@@ -41,18 +41,23 @@ app.post('/api/notes', (req, res)=>{
 })
 
 fsDelete = (data) =>{
-  const detectId = data.map(it=>({value: it.id}))
-  console.log(detectId)
+  console.log("hello from fsDelete!")
+  const array = JSON.parse(data);
+  for (let i=0; i<array.length; i++){
+  console.log(array[i].id)
+  }
+ // const detectId = array.id
+  //console.log(detectId)
   //const newData = data.replace(detectId, '')
   //fs.writeFile("./db/db.json", newData, 'utf-8')
 };
 
 app.delete('/api/notes/:id', (req, res)=>{
   fs.readFile("./db/db.json", "utf8", (err, data) => {
-    console.log(data);
-    fsDelete(data)
+      console.log(data);
+      fsDelete(data)
  })
- 
+
  const detectId = data.map(it=>({value: it.id}))
  console.log(detectId)
  //const newData = data.replace(detectId, '')
