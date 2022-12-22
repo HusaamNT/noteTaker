@@ -53,13 +53,12 @@ fsDelete = (data) =>{
 };
 
 app.delete('/api/notes/:id', (req, res)=>{
+  const param = req.param.id
+  console.log(param)
   fs.readFile("./db/db.json", "utf8", (err, data) => {
       console.log(data);
       fsDelete(data)
  })
-
- const detectId = data.map(it=>({value: it.id}))
- console.log(detectId)
  //const newData = data.replace(detectId, '')
  //fs.writeFile("./db/db.json", newData, 'utf-8')
 })
