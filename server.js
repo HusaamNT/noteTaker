@@ -14,11 +14,11 @@ app.use(express.urlencoded({ extended:true }));
 app.use(express.static('public'));
 
 app.get('/', (req, res) =>
-    res.sendFile(path.join(__dirname, '/Develop/public/index.html'))
+    res.sendFile(path.join(__dirname, './public/index.html'))
 );
 
 app.get('/notes', (req, res)=>
-    res.sendFile(path.join(__dirname, '/Develop/public/notes.html'))
+    res.sendFile(path.join(__dirname, './public/notes.html'))
 );
 app.post('/husaam/:job/:food',(req, res)=>{
   console.log(req.params);
@@ -28,6 +28,7 @@ app.get('/api/notes', (req, res)=>{
   res.json(db);
 }
 )
+
 app.post('/api/notes', (req, res)=>{
   const newNote = {
     title: req.body.title,
@@ -38,8 +39,24 @@ app.post('/api/notes', (req, res)=>{
   fs.writeFile("./db/db.json", JSON.stringify(db), err => console.log(err))
   res.json(db);
 })
+
+fsDelete = (data) =>{
+  const detectId = data.map(it=>({value: it.id}))
+  console.log(detectId)
+  //const newData = data.replace(detectId, '')
+  //fs.writeFile("./db/db.json", newData, 'utf-8')
+};
+
 app.delete('/api/notes/:id', (req, res)=>{
-  res.json('Testing DELETE notes');
+  fs.readFile("./db/db.json", "utf8", (err, data) => {
+    console.log(data);
+    fsDelete(data)
+ })
+ 
+ const detectId = data.map(it=>({value: it.id}))
+ console.log(detectId)
+ //const newData = data.replace(detectId, '')
+ //fs.writeFile("./db/db.json", newData, 'utf-8')
 })
 // WHEN I click on the link to the notes page
 // THEN I am presented with a page with existing notes listed in the left-hand column, plus empty fields to enter a new note title and the note’s text in the right-hand column
