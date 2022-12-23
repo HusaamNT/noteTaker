@@ -57,7 +57,7 @@ fsDelete = (data, param) =>{
   //const newData = data.replace(detectId, '')
   //fs.writeFile("./db/db.json", newData, 'utf-8')
 };
-
+//TODO: fix delete functionnid
 app.delete('/api/notes/:id', (req, res)=>{
   const param = req.param.id
   console.log(param)
